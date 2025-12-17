@@ -1,13 +1,14 @@
 # 🌲 Real-Time Analytics Dashboard
 
-A **Segment Tree-powered** analytics dashboard for real-time server metrics monitoring.
+A **Segment Tree-powered** analytics dashboard demonstrating O(log n) range queries for real-time server metrics monitoring. This project showcases how data structures from competitive programming can solve real-world problems in monitoring systems, similar to those used by Google Analytics, Cloudflare, and Bloomberg Terminal.
 
-![Dashboard Preview](/Users/ruturaj/.gemini/antigravity/brain/176ce32c-a73f-4175-94d2-e5bfe6202466/dashboard_light_mode_1765947320827.png)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-blue?style=for-the-badge)](https://p1-real-time-analytics-dashboard.vercel.app)
+[![Backend API](https://img.shields.io/badge/API-Render-green?style=for-the-badge)](https://p1-real-time-analytics-dashboard.onrender.com/api/health)
 
 ## 🚀 Live Demo
 
-- **Frontend**: [your-app.vercel.app](https://your-app.vercel.app) *(update after deployment)*
-- **Backend API**: [your-api.onrender.com](https://your-api.onrender.com) *(update after deployment)*
+- **Frontend**: [p1-real-time-analytics-dashboard.vercel.app](https://p1-real-time-analytics-dashboard.vercel.app)
+- **Backend API**: [p1-real-time-analytics-dashboard.onrender.com](https://p1-real-time-analytics-dashboard.onrender.com/api/health)
 
 ---
 
