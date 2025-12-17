@@ -7,7 +7,6 @@ export const useTheme = () => useContext(ThemeContext);
 
 // Image paths
 const IMAGES = {
-  logo: '/assets/images/iconimg_1.jpeg',
   background: {
     hero: '/assets/images/backgroundimg_1.jpeg',
     features: '/assets/images/backgroundimg_2.jpeg',
@@ -51,6 +50,19 @@ const VIDEO = {
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [scrollY, setScrollY] = useState(0);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    // Check localStorage for saved preference, default to dark
+    const saved = localStorage.getItem('theme');
+    return saved ? saved === 'dark' : true;
+  });
+
+  // Apply theme to document
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+  }, [isDarkMode]);
+
+  const toggleTheme = () => setIsDarkMode(!isDarkMode);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -79,20 +91,13 @@ function App() {
   }, [currentPage]);
 
   return (
-    <ThemeContext.Provider value={{ currentPage, setCurrentPage }}>
+    <ThemeContext.Provider value={{ currentPage, setCurrentPage, isDarkMode, toggleTheme }}>
       <div className="min-h-screen bg-spacex-black text-white font-space">
         {/* Navigation */}
         <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrollY > 50 ? 'glass py-3' : 'bg-transparent py-6'
           }`}>
           <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg overflow-hidden">
-                <img
-                  src={IMAGES.logo}
-                  alt="SegmentTree Logo"
-                  className="w-full h-full object-cover"
-                />
-              </div>
               <span className="text-xl font-semibold tracking-tight">SegmentTree</span>
             </div>
 
@@ -111,14 +116,30 @@ function App() {
               ))}
             </div>
 
-            <a
-              href="https://github.com/RUTURAJROCks/P1_Real_Time_Analytics_Dashboard"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-secondary text-sm"
-            >
-              GitHub
-            </a>
+            <div className="flex items-center gap-4">
+              {/* Theme Toggle */}
+              <button
+                onClick={toggleTheme}
+                className="theme-toggle"
+                data-active={!isDarkMode}
+                aria-label="Toggle theme"
+              >
+                <div className="theme-toggle-slider">
+                  <span className="theme-toggle-icon">
+                    {isDarkMode ? '🌙' : '☀️'}
+                  </span>
+                </div>
+              </button>
+
+              <a
+                href="https://github.com/RUTURAJROCks/P1_Real_Time_Analytics_Dashboard"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-secondary text-sm"
+              >
+                GitHub
+              </a>
+            </div>
           </div>
         </nav>
 
@@ -161,10 +182,10 @@ function HomePage({ onNavigate }) {
         </video>
 
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-spacex-black/60 via-spacex-black/40 to-spacex-black"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-spacex-black/60 via-spacex-black/40 to-spacex-black z-[1]"></div>
 
         {/* Grid Background */}
-        <div className="absolute inset-0 grid-bg opacity-20"></div>
+        <div className="absolute inset-0 grid-bg opacity-20 z-[2]"></div>
 
         {/* Hero Content */}
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
@@ -204,16 +225,6 @@ function HomePage({ onNavigate }) {
 
       {/* Features Section */}
       <section className="section-spacing relative">
-        {/* Background Image */}
-        <div
-          className="absolute inset-0 opacity-10"
-          style={{
-            backgroundImage: `url(${IMAGES.background.features})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        ></div>
-
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="text-center mb-16 scroll-reveal">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
@@ -268,16 +279,6 @@ function HomePage({ onNavigate }) {
 
       {/* Performance Comparison */}
       <section className="section-spacing bg-spacex-dark relative">
-        {/* Background Image */}
-        <div
-          className="absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `url(${IMAGES.background.performance})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        ></div>
-
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="scroll-reveal">
@@ -310,11 +311,11 @@ function HomePage({ onNavigate }) {
               </div>
 
               {/* Tech Image */}
-              <div className="mt-8 rounded-xl overflow-hidden h-48">
+              <div className="mt-8 rounded-xl overflow-hidden h-48 shadow-lg">
                 <img
                   src={IMAGES.tech.server1}
                   alt="Server Infrastructure"
-                  className="w-full h-full object-cover opacity-60"
+                  className="w-full h-full object-cover"
                 />
               </div>
             </div>
@@ -414,11 +415,6 @@ function DashboardPage() {
         {/* Header */}
         <div className="mb-10 scroll-reveal">
           <div className="flex items-center gap-4 mb-4">
-            <img
-              src={IMAGES.icons.chart}
-              alt="Dashboard"
-              className="w-12 h-12 rounded-lg object-cover"
-            />
             <h1 className="text-4xl font-bold">Real-Time Metrics</h1>
             <span className={`px-3 py-1 rounded-full text-xs uppercase tracking-wider ${isConnected
               ? 'bg-green-500/20 text-green-400'
@@ -760,9 +756,9 @@ function DocumentationPage() {
     <section className="min-h-screen pt-24 pb-20 px-6 relative">
       {/* Background */}
       <div
-        className="absolute inset-0 opacity-5"
+        className="absolute inset-0 opacity-10"
         style={{
-          backgroundImage: `url(${IMAGES.tech.code})`,
+          backgroundImage: `url(${IMAGES.abstract.gradient1})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center'
         }}
@@ -770,16 +766,9 @@ function DocumentationPage() {
 
       <div className="max-w-4xl mx-auto relative z-10">
         <div className="scroll-reveal">
-          <div className="flex items-center gap-4 mb-4">
-            <img
-              src={IMAGES.data.viz2}
-              alt="Documentation"
-              className="w-12 h-12 rounded-lg object-cover"
-            />
-            <h1 className="text-4xl md:text-5xl font-bold">
-              <span className="gradient-text">Documentation</span>
-            </h1>
-          </div>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            <span className="gradient-text">Documentation</span>
+          </h1>
           <p className="text-xl text-white/60 mb-12">
             Learn how Segment Trees enable O(log n) range queries for analytics.
           </p>
@@ -787,14 +776,7 @@ function DocumentationPage() {
 
         {/* What is a Segment Tree */}
         <div className="glass rounded-2xl p-8 mb-8 scroll-reveal">
-          <div className="flex items-center gap-3 mb-4">
-            <img
-              src={IMAGES.abstract.gradient2}
-              alt="Segment Tree"
-              className="w-10 h-10 rounded-lg object-cover"
-            />
-            <h2 className="text-2xl font-bold">What is a Segment Tree?</h2>
-          </div>
+          <h2 className="text-2xl font-bold mb-4">What is a Segment Tree?</h2>
           <p className="text-white/70 mb-6">
             A Segment Tree is a binary tree data structure that stores aggregate information about intervals (segments) of an underlying array.
             Each node represents a segment and stores a computed value (sum, min, max, etc.) for that range.
@@ -816,14 +798,7 @@ function DocumentationPage() {
 
         {/* Time Complexity */}
         <div className="glass rounded-2xl p-8 mb-8 scroll-reveal">
-          <div className="flex items-center gap-3 mb-4">
-            <img
-              src={IMAGES.icons.speed}
-              alt="Time Complexity"
-              className="w-10 h-10 rounded-lg object-cover"
-            />
-            <h2 className="text-2xl font-bold">Time Complexity</h2>
-          </div>
+          <h2 className="text-2xl font-bold mb-4">Time Complexity</h2>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -854,14 +829,7 @@ function DocumentationPage() {
 
         {/* Code Example */}
         <div className="glass rounded-2xl p-8 scroll-reveal">
-          <div className="flex items-center gap-3 mb-4">
-            <img
-              src={IMAGES.tech.code}
-              alt="Code"
-              className="w-10 h-10 rounded-lg object-cover"
-            />
-            <h2 className="text-2xl font-bold">Python Implementation</h2>
-          </div>
+          <h2 className="text-2xl font-bold mb-4">Python Implementation</h2>
           <div className="bg-spacex-dark rounded-xl p-6 font-mono text-sm overflow-x-auto">
             <pre className="text-white/80">
               {`class SegmentTree:
