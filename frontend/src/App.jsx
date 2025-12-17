@@ -5,6 +5,48 @@ import './index.css';
 const ThemeContext = createContext();
 export const useTheme = () => useContext(ThemeContext);
 
+// Image paths
+const IMAGES = {
+  logo: '/assets/images/iconimg_1.jpeg',
+  background: {
+    hero: '/assets/images/backgroundimg_1.jpeg',
+    features: '/assets/images/backgroundimg_2.jpeg',
+    performance: '/assets/images/backgroundimg_3.jpeg',
+    dashboard: '/assets/images/backgroundimg_4.jpeg',
+  },
+  icons: {
+    speed: '/assets/images/iconimg_2.jpeg',
+    realtime: '/assets/images/iconimg_3.jpeg',
+    production: '/assets/images/iconimg_4.jpeg',
+    chart: '/assets/images/iconimg_5.jpeg',
+    data: '/assets/images/iconimg_6.jpeg',
+  },
+  abstract: {
+    gradient1: '/assets/images/abstractimg_1.jpeg',
+    gradient2: '/assets/images/abstractimg_2.jpeg',
+    gradient3: '/assets/images/abstractimg_3.jpeg',
+  },
+  data: {
+    viz1: '/assets/images/dataimg_1.jpeg',
+    viz2: '/assets/images/dataimg_2.jpeg',
+    viz3: '/assets/images/dataimg_3.jpeg',
+  },
+  tech: {
+    server1: '/assets/images/techimg_1.jpeg',
+    server2: '/assets/images/techimg_2.jpeg',
+    code: '/assets/images/techimg_3.jpeg',
+  },
+  simulations: {
+    stock: '/assets/images/dataimg_4.jpeg',
+    cdn: '/assets/images/techimg_4.jpeg',
+    ecommerce: '/assets/images/dataimg_5.jpeg',
+  }
+};
+
+const VIDEO = {
+  hero: '/assets/videos/video_2.mp4'
+};
+
 // Main App Component
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -44,8 +86,12 @@ function App() {
           }`}>
           <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-accent-cyan to-accent-purple flex items-center justify-center">
-                <span className="text-xl">🌲</span>
+              <div className="w-10 h-10 rounded-lg overflow-hidden">
+                <img
+                  src={IMAGES.logo}
+                  alt="SegmentTree Logo"
+                  className="w-full h-full object-cover"
+                />
               </div>
               <span className="text-xl font-semibold tracking-tight">SegmentTree</span>
             </div>
@@ -56,8 +102,8 @@ function App() {
                   key={item}
                   onClick={() => setCurrentPage(item.toLowerCase())}
                   className={`text-sm uppercase tracking-widest transition-all ${currentPage === item.toLowerCase()
-                      ? 'text-accent-cyan'
-                      : 'text-white/60 hover:text-white'
+                    ? 'text-accent-cyan'
+                    : 'text-white/60 hover:text-white'
                     }`}
                 >
                   {item}
@@ -86,7 +132,7 @@ function App() {
         <footer className="border-t border-white/10 py-12 mt-20">
           <div className="max-w-7xl mx-auto px-6 text-center">
             <p className="text-white/50 text-sm">
-              Built with Segment Trees • Powered by FastAPI & React
+              Built with Segment Trees | Powered by FastAPI & React
             </p>
           </div>
         </footer>
@@ -111,7 +157,7 @@ function HomePage({ onNavigate }) {
           playsInline
           className="video-bg"
         >
-          <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-futuristic-devices-99786-large.mp4" type="video/mp4" />
+          <source src={VIDEO.hero} type="video/mp4" />
         </video>
 
         {/* Gradient Overlay */}
@@ -158,7 +204,17 @@ function HomePage({ onNavigate }) {
 
       {/* Features Section */}
       <section className="section-spacing relative">
-        <div className="max-w-7xl mx-auto px-6">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage: `url(${IMAGES.background.features})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
+        ></div>
+
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="text-center mb-16 scroll-reveal">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
               Why <span className="gradient-text">Segment Trees</span>?
@@ -171,19 +227,19 @@ function HomePage({ onNavigate }) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                icon: '⚡',
+                image: IMAGES.icons.speed,
                 title: 'O(log n) Queries',
                 desc: 'Range sum, min, max in logarithmic time instead of linear scans.',
                 stat: '300x faster'
               },
               {
-                icon: '📊',
+                image: IMAGES.icons.realtime,
                 title: 'Real-Time Updates',
                 desc: 'Point updates propagate in O(log n) maintaining query speed.',
                 stat: '3600 ops/sec'
               },
               {
-                icon: '🔥',
+                image: IMAGES.icons.production,
                 title: 'Production Ready',
                 desc: 'Battle-tested in trading systems, CDNs, and monitoring tools.',
                 stat: '99.99% uptime'
@@ -194,7 +250,13 @@ function HomePage({ onNavigate }) {
                 className="scroll-reveal glass rounded-2xl p-8 card-hover"
                 style={{ animationDelay: `${i * 0.1}s` }}
               >
-                <div className="text-4xl mb-4">{feature.icon}</div>
+                <div className="w-16 h-16 rounded-xl overflow-hidden mb-4">
+                  <img
+                    src={feature.image}
+                    alt={feature.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
                 <h3 className="text-2xl font-semibold mb-2">{feature.title}</h3>
                 <p className="text-white/60 mb-4">{feature.desc}</p>
                 <div className="text-accent-cyan font-bold text-lg">{feature.stat}</div>
@@ -205,8 +267,18 @@ function HomePage({ onNavigate }) {
       </section>
 
       {/* Performance Comparison */}
-      <section className="section-spacing bg-spacex-dark">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="section-spacing bg-spacex-dark relative">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `url(${IMAGES.background.performance})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
+        ></div>
+
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="scroll-reveal">
               <h2 className="text-4xl font-bold mb-6">
@@ -235,6 +307,15 @@ function HomePage({ onNavigate }) {
                     </div>
                   </div>
                 ))}
+              </div>
+
+              {/* Tech Image */}
+              <div className="mt-8 rounded-xl overflow-hidden h-48">
+                <img
+                  src={IMAGES.tech.server1}
+                  alt="Server Infrastructure"
+                  className="w-full h-full object-cover opacity-60"
+                />
               </div>
             </div>
 
@@ -318,17 +399,32 @@ function DashboardPage() {
   }, [timeRange, API_URL]);
 
   return (
-    <section className="min-h-screen pt-24 pb-20 px-6">
-      <div className="max-w-7xl mx-auto">
+    <section className="min-h-screen pt-24 pb-20 px-6 relative">
+      {/* Background Image */}
+      <div
+        className="absolute inset-0 opacity-5"
+        style={{
+          backgroundImage: `url(${IMAGES.background.dashboard})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      ></div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <div className="mb-10 scroll-reveal">
           <div className="flex items-center gap-4 mb-4">
+            <img
+              src={IMAGES.icons.chart}
+              alt="Dashboard"
+              className="w-12 h-12 rounded-lg object-cover"
+            />
             <h1 className="text-4xl font-bold">Real-Time Metrics</h1>
             <span className={`px-3 py-1 rounded-full text-xs uppercase tracking-wider ${isConnected
-                ? 'bg-green-500/20 text-green-400'
-                : 'bg-red-500/20 text-red-400'
+              ? 'bg-green-500/20 text-green-400'
+              : 'bg-red-500/20 text-red-400'
               }`}>
-              {isConnected ? '● Live' : '● Disconnected'}
+              {isConnected ? 'Live' : 'Disconnected'}
             </span>
           </div>
           <p className="text-white/60 text-lg">
@@ -383,10 +479,19 @@ function DashboardPage() {
             {/* Performance */}
             <div className="glass rounded-2xl p-6 scroll-reveal">
               <h3 className="text-lg font-semibold mb-4">Performance</h3>
-              <div className="space-y-2 text-sm text-white/60">
-                <p>✨ Query Time: <span className="text-accent-cyan font-mono">O(log n)</span></p>
-                <p>📊 Data Points: <span className="font-mono">3,600</span></p>
-                <p>⚡ Operations: <span className="text-green-400 font-mono">~12</span></p>
+              <div className="space-y-3 text-sm text-white/60">
+                <div className="flex items-center gap-2">
+                  <img src={IMAGES.icons.speed} alt="" className="w-5 h-5 rounded object-cover" />
+                  <span>Query Time: <span className="text-accent-cyan font-mono">O(log n)</span></span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <img src={IMAGES.icons.data} alt="" className="w-5 h-5 rounded object-cover" />
+                  <span>Data Points: <span className="font-mono">3,600</span></span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <img src={IMAGES.icons.realtime} alt="" className="w-5 h-5 rounded object-cover" />
+                  <span>Operations: <span className="text-green-400 font-mono">~12</span></span>
+                </div>
               </div>
             </div>
           </div>
@@ -460,7 +565,7 @@ function SimulationsPage() {
       title: 'Stock Trading Analytics',
       subtitle: 'Bloomberg Terminal Style',
       description: 'Real-time price range queries for finding min/max prices in any time window. Used by high-frequency trading systems.',
-      icon: '📈',
+      image: IMAGES.simulations.stock,
       color: 'from-green-400 to-emerald-600',
       stats: ['1M+ trades/day', 'O(log n) range min/max', 'Sub-millisecond latency'],
       demo: true
@@ -470,7 +575,7 @@ function SimulationsPage() {
       title: 'CDN Latency Monitor',
       subtitle: 'Cloudflare Style',
       description: 'Monitor request latency across global edge locations. Aggregate metrics for anomaly detection.',
-      icon: '🌐',
+      image: IMAGES.simulations.cdn,
       color: 'from-orange-400 to-red-600',
       stats: ['200 edge locations', 'Percentile queries', 'Real-time alerts'],
       demo: true
@@ -480,7 +585,7 @@ function SimulationsPage() {
       title: 'E-commerce Revenue',
       subtitle: 'Shopify Analytics Style',
       description: 'Range sum queries for revenue aggregation. Instant dashboard updates for any date range.',
-      icon: '🛒',
+      image: IMAGES.simulations.ecommerce,
       color: 'from-purple-400 to-pink-600',
       stats: ['$1B+ processed', 'Range sum in O(log n)', 'Hourly/daily/monthly views'],
       demo: true
@@ -488,8 +593,18 @@ function SimulationsPage() {
   ];
 
   return (
-    <section className="min-h-screen pt-24 pb-20 px-6">
-      <div className="max-w-7xl mx-auto">
+    <section className="min-h-screen pt-24 pb-20 px-6 relative">
+      {/* Background */}
+      <div
+        className="absolute inset-0 opacity-5"
+        style={{
+          backgroundImage: `url(${IMAGES.abstract.gradient1})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      ></div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-16 scroll-reveal">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
@@ -508,9 +623,14 @@ function SimulationsPage() {
               className="scroll-reveal glass rounded-2xl overflow-hidden card-hover"
               style={{ animationDelay: `${i * 0.1}s` }}
             >
-              {/* Card Header */}
-              <div className={`h-32 bg-gradient-to-br ${sim.color} flex items-center justify-center`}>
-                <span className="text-6xl">{sim.icon}</span>
+              {/* Card Header with Image */}
+              <div className="h-40 relative overflow-hidden">
+                <img
+                  src={sim.image}
+                  alt={sim.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className={`absolute inset-0 bg-gradient-to-br ${sim.color} opacity-60`}></div>
               </div>
 
               {/* Card Body */}
@@ -533,7 +653,7 @@ function SimulationsPage() {
 
                 {/* Demo Button */}
                 <button className="w-full py-3 rounded-lg bg-white/10 hover:bg-white/20 transition-all text-sm font-medium">
-                  Launch Demo →
+                  Launch Demo
                 </button>
               </div>
             </div>
@@ -543,7 +663,14 @@ function SimulationsPage() {
         {/* Interactive Demo Section */}
         <div className="mt-20 scroll-reveal">
           <div className="glass rounded-2xl p-8">
-            <h2 className="text-2xl font-bold mb-6 text-center">Live Stock Price Demo</h2>
+            <div className="flex items-center gap-4 mb-6 justify-center">
+              <img
+                src={IMAGES.data.viz1}
+                alt="Stock Demo"
+                className="w-10 h-10 rounded-lg object-cover"
+              />
+              <h2 className="text-2xl font-bold">Live Stock Price Demo</h2>
+            </div>
             <StockDemo />
           </div>
         </div>
@@ -630,12 +757,29 @@ function StockDemo() {
 // ============================================
 function DocumentationPage() {
   return (
-    <section className="min-h-screen pt-24 pb-20 px-6">
-      <div className="max-w-4xl mx-auto">
+    <section className="min-h-screen pt-24 pb-20 px-6 relative">
+      {/* Background */}
+      <div
+        className="absolute inset-0 opacity-5"
+        style={{
+          backgroundImage: `url(${IMAGES.tech.code})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      ></div>
+
+      <div className="max-w-4xl mx-auto relative z-10">
         <div className="scroll-reveal">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="gradient-text">Documentation</span>
-          </h1>
+          <div className="flex items-center gap-4 mb-4">
+            <img
+              src={IMAGES.data.viz2}
+              alt="Documentation"
+              className="w-12 h-12 rounded-lg object-cover"
+            />
+            <h1 className="text-4xl md:text-5xl font-bold">
+              <span className="gradient-text">Documentation</span>
+            </h1>
+          </div>
           <p className="text-xl text-white/60 mb-12">
             Learn how Segment Trees enable O(log n) range queries for analytics.
           </p>
@@ -643,7 +787,14 @@ function DocumentationPage() {
 
         {/* What is a Segment Tree */}
         <div className="glass rounded-2xl p-8 mb-8 scroll-reveal">
-          <h2 className="text-2xl font-bold mb-4">What is a Segment Tree?</h2>
+          <div className="flex items-center gap-3 mb-4">
+            <img
+              src={IMAGES.abstract.gradient2}
+              alt="Segment Tree"
+              className="w-10 h-10 rounded-lg object-cover"
+            />
+            <h2 className="text-2xl font-bold">What is a Segment Tree?</h2>
+          </div>
           <p className="text-white/70 mb-6">
             A Segment Tree is a binary tree data structure that stores aggregate information about intervals (segments) of an underlying array.
             Each node represents a segment and stores a computed value (sum, min, max, etc.) for that range.
@@ -665,7 +816,14 @@ function DocumentationPage() {
 
         {/* Time Complexity */}
         <div className="glass rounded-2xl p-8 mb-8 scroll-reveal">
-          <h2 className="text-2xl font-bold mb-4">Time Complexity</h2>
+          <div className="flex items-center gap-3 mb-4">
+            <img
+              src={IMAGES.icons.speed}
+              alt="Time Complexity"
+              className="w-10 h-10 rounded-lg object-cover"
+            />
+            <h2 className="text-2xl font-bold">Time Complexity</h2>
+          </div>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -696,7 +854,14 @@ function DocumentationPage() {
 
         {/* Code Example */}
         <div className="glass rounded-2xl p-8 scroll-reveal">
-          <h2 className="text-2xl font-bold mb-4">Python Implementation</h2>
+          <div className="flex items-center gap-3 mb-4">
+            <img
+              src={IMAGES.tech.code}
+              alt="Code"
+              className="w-10 h-10 rounded-lg object-cover"
+            />
+            <h2 className="text-2xl font-bold">Python Implementation</h2>
+          </div>
           <div className="bg-spacex-dark rounded-xl p-6 font-mono text-sm overflow-x-auto">
             <pre className="text-white/80">
               {`class SegmentTree:
