@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: segment-tree-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    envVars:
+      - key: PORT
+        value: 8000
+    healthCheckPath: /api/health
