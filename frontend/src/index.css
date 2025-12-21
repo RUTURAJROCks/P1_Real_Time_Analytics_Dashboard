@@ -4,20 +4,48 @@
 
 /* CSS Variables - Dark Theme (Default) */
 :root {
-  --black: #000000;
-  --gray-dark: #0a0a0a;
-  --gray-mid: #1a1a1a;
-  --gray-light: #2a2a2a;
-  --white-100: rgba(240, 240, 250, 1);
-  --white-90: rgba(240, 240, 250, 0.9);
-  --white-80: rgba(240, 240, 250, 0.8);
-  --white-70: rgba(240, 240, 250, 0.7);
-  --white-60: rgba(240, 240, 250, 0.6);
-  --white-50: rgba(240, 240, 250, 0.5);
-  --white-35: rgba(240, 240, 250, 0.35);
-  --white-30: rgba(240, 240, 250, 0.3);
-  --white-15: rgba(240, 240, 250, 0.15);
-  --white-10: rgba(240, 240, 250, 0.1);
+  /* Surface colors - semantic naming (adapts per theme) */
+  --surface-base: #000000;
+  --surface-elevated: #0a0a0a;
+  --surface-overlay: #1a1a1a;
+  --surface-subtle: #2a2a2a;
+
+  /* Text colors with semantic opacity levels (WCAG AA compliant contrast) */
+  --text-100: rgba(240, 240, 250, 1);
+  --text-90: rgba(240, 240, 250, 0.9);
+  --text-80: rgba(240, 240, 250, 0.85);
+  /* Improved from 0.8 */
+  --text-70: rgba(240, 240, 250, 0.78);
+  /* Improved from 0.7 */
+  --text-60: rgba(240, 240, 250, 0.75);
+  /* Improved from 0.6 for contrast */
+  --text-50: rgba(240, 240, 250, 0.7);
+  /* Improved from 0.5 for contrast */
+  --text-35: rgba(240, 240, 250, 0.45);
+  /* Improved from 0.35 */
+  --text-30: rgba(240, 240, 250, 0.4);
+  /* Improved from 0.3 */
+  --text-15: rgba(240, 240, 250, 0.2);
+  /* Improved from 0.15 */
+  --text-10: rgba(240, 240, 250, 0.15);
+  /* Improved from 0.1 */
+
+  /* Legacy aliases for backwards compatibility */
+  --black: var(--surface-base);
+  --gray-dark: var(--surface-elevated);
+  --gray-mid: var(--surface-overlay);
+  --gray-light: var(--surface-subtle);
+  --white-100: var(--text-100);
+  --white-90: var(--text-90);
+  --white-80: var(--text-80);
+  --white-70: var(--text-70);
+  --white-60: var(--text-60);
+  --white-50: var(--text-50);
+  --white-35: var(--text-35);
+  --white-30: var(--text-30);
+  --white-15: var(--text-15);
+  --white-10: var(--text-10);
+
   --accent-cyan: #00d4ff;
   --accent-purple: #8b5cf6;
   --accent-blue: #3b82f6;
@@ -27,29 +55,60 @@
   --bg-secondary: #0a0a0a;
   --bg-tertiary: #1a1a1a;
   --text-primary: rgba(240, 240, 250, 1);
-  --text-secondary: rgba(240, 240, 250, 0.7);
-  --text-muted: rgba(240, 240, 250, 0.5);
-  --border-color: rgba(240, 240, 250, 0.1);
+  --text-secondary: rgba(240, 240, 250, 0.78);
+  /* Improved from 0.7 */
+  --text-muted: rgba(240, 240, 250, 0.65);
+  /* Improved from 0.5 for contrast */
+  --border-color: rgba(240, 240, 250, 0.15);
+  /* Slightly more visible */
   --glass-bg: rgba(26, 26, 26, 0.6);
   --card-bg: rgba(255, 255, 255, 0.05);
 }
 
 /* Light Theme Variables */
 [data-theme="light"] {
-  --black: #ffffff;
-  --gray-dark: #f8f9fa;
-  --gray-mid: #e9ecef;
-  --gray-light: #dee2e6;
-  --white-100: rgba(15, 23, 42, 1);
-  --white-90: rgba(15, 23, 42, 0.9);
-  --white-80: rgba(15, 23, 42, 0.8);
-  --white-70: rgba(15, 23, 42, 0.7);
-  --white-60: rgba(15, 23, 42, 0.6);
-  --white-50: rgba(15, 23, 42, 0.5);
-  --white-35: rgba(15, 23, 42, 0.35);
-  --white-30: rgba(15, 23, 42, 0.3);
-  --white-15: rgba(15, 23, 42, 0.15);
-  --white-10: rgba(15, 23, 42, 0.1);
+  /* Surface colors - semantic naming (adapts per theme) */
+  --surface-base: #ffffff;
+  --surface-elevated: #f8f9fa;
+  --surface-overlay: #e9ecef;
+  --surface-subtle: #dee2e6;
+
+  /* Text colors with semantic opacity levels (WCAG AA compliant contrast) */
+  --text-100: rgba(15, 23, 42, 1);
+  --text-90: rgba(15, 23, 42, 0.9);
+  --text-80: rgba(15, 23, 42, 0.85);
+  /* Improved from 0.8 */
+  --text-70: rgba(15, 23, 42, 0.78);
+  /* Improved from 0.7 */
+  --text-60: rgba(15, 23, 42, 0.75);
+  /* Improved from 0.6 for contrast */
+  --text-50: rgba(15, 23, 42, 0.7);
+  /* Improved from 0.5 for contrast */
+  --text-35: rgba(15, 23, 42, 0.45);
+  /* Improved from 0.35 */
+  --text-30: rgba(15, 23, 42, 0.4);
+  /* Improved from 0.3 */
+  --text-15: rgba(15, 23, 42, 0.2);
+  /* Improved from 0.15 */
+  --text-10: rgba(15, 23, 42, 0.15);
+  /* Improved from 0.1 */
+
+  /* Legacy aliases for backwards compatibility */
+  --black: var(--surface-base);
+  --gray-dark: var(--surface-elevated);
+  --gray-mid: var(--surface-overlay);
+  --gray-light: var(--surface-subtle);
+  --white-100: var(--text-100);
+  --white-90: var(--text-90);
+  --white-80: var(--text-80);
+  --white-70: var(--text-70);
+  --white-60: var(--text-60);
+  --white-50: var(--text-50);
+  --white-35: var(--text-35);
+  --white-30: var(--text-30);
+  --white-15: var(--text-15);
+  --white-10: var(--text-10);
+
   --accent-cyan: #0891b2;
   --accent-purple: #7c3aed;
   --accent-blue: #2563eb;
@@ -59,9 +118,12 @@
   --bg-secondary: #f8f9fa;
   --bg-tertiary: #e9ecef;
   --text-primary: rgba(15, 23, 42, 1);
-  --text-secondary: rgba(15, 23, 42, 0.7);
-  --text-muted: rgba(15, 23, 42, 0.5);
-  --border-color: rgba(15, 23, 42, 0.1);
+  --text-secondary: rgba(15, 23, 42, 0.78);
+  /* Improved from 0.7 */
+  --text-muted: rgba(15, 23, 42, 0.65);
+  /* Improved from 0.5 for contrast */
+  --border-color: rgba(15, 23, 42, 0.15);
+  /* Slightly more visible */
   --glass-bg: rgba(255, 255, 255, 0.8);
   --card-bg: rgba(0, 0, 0, 0.03);
 }
@@ -485,4 +547,210 @@ input[type="range"]::-moz-range-thumb {
 /* Light mode border colors */
 [data-theme="light"] .border-white\/30 {
   border-color: rgba(15, 23, 42, 0.2);
+}
+
+/* ============================================
+   GEEKSFORGEEKS-STYLE CODE BLOCKS
+   ============================================ */
+
+/* Code Block Container */
+.gfg-code-container {
+  border-radius: 8px;
+  overflow: hidden;
+  background: #263238;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="light"] .gfg-code-container {
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
+}
+
+/* Language Tabs */
+.gfg-tabs {
+  display: flex;
+  background: #1e272c;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+[data-theme="light"] .gfg-tabs {
+  background: #e8e8e8;
+  border-bottom: 1px solid #d0d0d0;
+}
+
+.gfg-tab {
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.6);
+  background: transparent;
+  border: none;
+  position: relative;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+[data-theme="light"] .gfg-tab {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.gfg-tab:hover {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="light"] .gfg-tab:hover {
+  color: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.gfg-tab.active {
+  color: #2f8d46;
+  font-weight: 600;
+}
+
+.gfg-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #2f8d46;
+  border-radius: 3px 3px 0 0;
+}
+
+/* Code Header (with copy button) */
+.gfg-code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background: #1e272c;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="light"] .gfg-code-header {
+  background: #e8e8e8;
+  border-bottom: 1px solid #d0d0d0;
+}
+
+.gfg-language-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #2f8d46;
+  letter-spacing: 0.5px;
+}
+
+.gfg-copy-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+[data-theme="light"] .gfg-copy-btn {
+  color: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.gfg-copy-btn:hover {
+  background: rgba(47, 141, 70, 0.2);
+  border-color: #2f8d46;
+  color: #2f8d46;
+}
+
+.gfg-copy-btn.copied {
+  background: rgba(47, 141, 70, 0.3);
+  color: #2f8d46;
+  border-color: #2f8d46;
+}
+
+/* Code Content Area */
+.gfg-code-content {
+  padding: 16px;
+  overflow-x: auto;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.gfg-code-content pre {
+  margin: 0;
+  color: #e0e0e0;
+  white-space: pre;
+}
+
+[data-theme="light"] .gfg-code-content pre {
+  color: #333;
+}
+
+/* Syntax Highlighting Colors */
+.gfg-keyword {
+  color: #c792ea;
+}
+
+.gfg-string {
+  color: #c3e88d;
+}
+
+.gfg-comment {
+  color: #546e7a;
+  font-style: italic;
+}
+
+.gfg-function {
+  color: #82aaff;
+}
+
+.gfg-number {
+  color: #f78c6c;
+}
+
+.gfg-class {
+  color: #ffcb6b;
+}
+
+.gfg-type {
+  color: #89ddff;
+}
+
+[data-theme="light"] .gfg-keyword {
+  color: #7c3aed;
+}
+
+[data-theme="light"] .gfg-string {
+  color: #16a34a;
+}
+
+[data-theme="light"] .gfg-comment {
+  color: #6b7280;
+}
+
+[data-theme="light"] .gfg-function {
+  color: #2563eb;
+}
+
+[data-theme="light"] .gfg-number {
+  color: #ea580c;
+}
+
+[data-theme="light"] .gfg-class {
+  color: #ca8a04;
+}
+
+[data-theme="light"] .gfg-type {
+  color: #0891b2;
 }

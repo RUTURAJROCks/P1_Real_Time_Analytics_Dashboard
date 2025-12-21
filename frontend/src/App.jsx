@@ -360,10 +360,21 @@ function HomePage({ onNavigate }) {
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 
 function DashboardPage() {
+  const { isDarkMode } = useTheme();
   const [data, setData] = useState([]);
   const [stats, setStats] = useState({ max: 0, min: 0, avg: 0 });
   const [timeRange, setTimeRange] = useState(5);
   const [isConnected, setIsConnected] = useState(true);
+
+  // Theme-aware chart colors
+  const chartColors = {
+    grid: isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(15,23,42,0.1)',
+    axis: isDarkMode ? 'rgba(255,255,255,0.3)' : 'rgba(15,23,42,0.3)',
+    tick: isDarkMode ? 'rgba(255,255,255,0.5)' : 'rgba(15,23,42,0.6)',
+    tooltipBg: isDarkMode ? 'rgba(26,26,26,0.9)' : 'rgba(255,255,255,0.95)',
+    tooltipBorder: isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(15,23,42,0.15)',
+    tooltipText: isDarkMode ? '#fff' : '#0f172a'
+  };
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
@@ -513,23 +524,23 @@ function DashboardPage() {
                       <stop offset="95%" stopColor="#00d4ff" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                  <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
                   <XAxis
                     dataKey="time"
-                    stroke="rgba(255,255,255,0.3)"
-                    tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 12 }}
+                    stroke={chartColors.axis}
+                    tick={{ fill: chartColors.tick, fontSize: 12 }}
                   />
                   <YAxis
                     domain={[0, 100]}
-                    stroke="rgba(255,255,255,0.3)"
-                    tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 12 }}
+                    stroke={chartColors.axis}
+                    tick={{ fill: chartColors.tick, fontSize: 12 }}
                   />
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: 'rgba(26,26,26,0.9)',
-                      border: '1px solid rgba(255,255,255,0.1)',
+                      backgroundColor: chartColors.tooltipBg,
+                      border: `1px solid ${chartColors.tooltipBorder}`,
                       borderRadius: '12px',
-                      color: '#fff'
+                      color: chartColors.tooltipText
                     }}
                   />
                   <Area
@@ -677,9 +688,13 @@ function SimulationsPage() {
 
 // Stock Demo Component
 function StockDemo() {
+  const { isDarkMode } = useTheme();
   const [prices] = useState(() => Array.from({ length: 100 }, () => 100 + Math.random() * 50));
   const [range, setRange] = useState([0, 100]);
   const [result, setResult] = useState({ min: 0, max: 0 });
+
+  // Theme-aware chart colors
+  const gridColor = isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(15,23,42,0.1)';
 
   useEffect(() => {
     const rangeSlice = prices.slice(range[0], range[1]);
@@ -739,7 +754,7 @@ function StockDemo() {
                 <stop offset="95%" stopColor="#22c55e" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+            <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
             <Area type="monotone" dataKey="price" stroke="#22c55e" fill="url(#priceGradient)" />
           </AreaChart>
         </ResponsiveContainer>
@@ -749,9 +764,290 @@ function StockDemo() {
 }
 
 // ============================================
+// GEEKSFORGEEKS-STYLE CODE BLOCK COMPONENT
+// ============================================
+function CodeBlock({ codes }) {
+  const [activeTab, setActiveTab] = useState('python');
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(codes[activeTab].code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const languages = [
+    { id: 'python', label: 'Python' },
+    { id: 'cpp', label: 'C++' },
+    { id: 'java', label: 'Java' }
+  ];
+
+  return (
+    <div className="gfg-code-container">
+      {/* Language Tabs */}
+      <div className="gfg-tabs">
+        {languages.map((lang) => (
+          <button
+            key={lang.id}
+            className={`gfg-tab ${activeTab === lang.id ? 'active' : ''}`}
+            onClick={() => setActiveTab(lang.id)}
+          >
+            {lang.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Code Header */}
+      <div className="gfg-code-header">
+        <span className="gfg-language-label">{codes[activeTab].label}</span>
+        <button
+          className={`gfg-copy-btn ${copied ? 'copied' : ''}`}
+          onClick={handleCopy}
+        >
+          {copied ? (
+            <>✓ Copied!</>
+          ) : (
+            <>📋 Copy</>
+          )}
+        </button>
+      </div>
+
+      {/* Code Content */}
+      <div className="gfg-code-content">
+        <pre>{codes[activeTab].code}</pre>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
 // DOCUMENTATION PAGE
 // ============================================
 function DocumentationPage() {
+  // Segment Tree implementations in all three languages
+  const segmentTreeCodes = {
+    python: {
+      label: 'Python 3',
+      code: `class SegmentTree:
+    def __init__(self, data, merge_fn=lambda a, b: a + b, identity=0):
+        """Initialize segment tree with data array."""
+        self.n = len(data)
+        self.merge = merge_fn
+        self.identity = identity
+        self.tree = [identity] * (4 * self.n)
+        self._build(data, 1, 0, self.n - 1)
+
+    def _build(self, data, node, start, end):
+        """Build tree recursively in O(n)."""
+        if start == end:
+            self.tree[node] = data[start]
+        else:
+            mid = (start + end) // 2
+            self._build(data, 2 * node, start, mid)
+            self._build(data, 2 * node + 1, mid + 1, end)
+            self.tree[node] = self.merge(
+                self.tree[2 * node], 
+                self.tree[2 * node + 1]
+            )
+
+    def query(self, l, r):
+        """Range query in O(log n)."""
+        return self._query(1, 0, self.n - 1, l, r)
+
+    def _query(self, node, start, end, l, r):
+        if r < start or end < l:
+            return self.identity
+        if l <= start and end <= r:
+            return self.tree[node]
+        mid = (start + end) // 2
+        left = self._query(2 * node, start, mid, l, r)
+        right = self._query(2 * node + 1, mid + 1, end, l, r)
+        return self.merge(left, right)
+
+    def update(self, idx, val):
+        """Point update in O(log n)."""
+        self._update(1, 0, self.n - 1, idx, val)
+
+    def _update(self, node, start, end, idx, val):
+        if start == end:
+            self.tree[node] = val
+        else:
+            mid = (start + end) // 2
+            if idx <= mid:
+                self._update(2 * node, start, mid, idx, val)
+            else:
+                self._update(2 * node + 1, mid + 1, end, idx, val)
+            self.tree[node] = self.merge(
+                self.tree[2 * node], 
+                self.tree[2 * node + 1]
+            )
+
+# Usage Example
+data = [1, 3, 5, 7, 9, 11]
+st = SegmentTree(data)
+print(st.query(1, 3))  # Sum of range [1,3] = 15
+st.update(1, 10)       # Update index 1 to 10
+print(st.query(1, 3))  # New sum = 22`
+    },
+    cpp: {
+      label: 'C++ 17',
+      code: `#include <vector>
+#include <functional>
+using namespace std;
+
+template<typename T>
+class SegmentTree {
+private:
+    vector<T> tree;
+    int n;
+    T identity;
+    function<T(T, T)> merge;
+
+    void build(const vector<T>& data, int node, int start, int end) {
+        if (start == end) {
+            tree[node] = data[start];
+        } else {
+            int mid = (start + end) / 2;
+            build(data, 2 * node, start, mid);
+            build(data, 2 * node + 1, mid + 1, end);
+            tree[node] = merge(tree[2 * node], tree[2 * node + 1]);
+        }
+    }
+
+    T queryHelper(int node, int start, int end, int l, int r) {
+        if (r < start || end < l) return identity;
+        if (l <= start && end <= r) return tree[node];
+        int mid = (start + end) / 2;
+        T left = queryHelper(2 * node, start, mid, l, r);
+        T right = queryHelper(2 * node + 1, mid + 1, end, l, r);
+        return merge(left, right);
+    }
+
+    void updateHelper(int node, int start, int end, int idx, T val) {
+        if (start == end) {
+            tree[node] = val;
+        } else {
+            int mid = (start + end) / 2;
+            if (idx <= mid)
+                updateHelper(2 * node, start, mid, idx, val);
+            else
+                updateHelper(2 * node + 1, mid + 1, end, idx, val);
+            tree[node] = merge(tree[2 * node], tree[2 * node + 1]);
+        }
+    }
+
+public:
+    SegmentTree(const vector<T>& data, 
+                function<T(T, T)> mergeFn = [](T a, T b) { return a + b; },
+                T id = T()) 
+        : n(data.size()), merge(mergeFn), identity(id) {
+        tree.resize(4 * n, identity);
+        build(data, 1, 0, n - 1);
+    }
+
+    // Range query in O(log n)
+    T query(int l, int r) {
+        return queryHelper(1, 0, n - 1, l, r);
+    }
+
+    // Point update in O(log n)
+    void update(int idx, T val) {
+        updateHelper(1, 0, n - 1, idx, val);
+    }
+};
+
+// Usage Example
+int main() {
+    vector<int> data = {1, 3, 5, 7, 9, 11};
+    SegmentTree<int> st(data);
+    cout << st.query(1, 3) << endl;  // Sum of range [1,3] = 15
+    st.update(1, 10);                 // Update index 1 to 10
+    cout << st.query(1, 3) << endl;  // New sum = 22
+    return 0;
+}`
+    },
+    java: {
+      label: 'Java',
+      code: `import java.util.function.BinaryOperator;
+
+public class SegmentTree<T> {
+    private Object[] tree;
+    private int n;
+    private T identity;
+    private BinaryOperator<T> merge;
+
+    public SegmentTree(T[] data, BinaryOperator<T> mergeFn, T identity) {
+        this.n = data.length;
+        this.merge = mergeFn;
+        this.identity = identity;
+        this.tree = new Object[4 * n];
+        build(data, 1, 0, n - 1);
+    }
+
+    private void build(T[] data, int node, int start, int end) {
+        if (start == end) {
+            tree[node] = data[start];
+        } else {
+            int mid = (start + end) / 2;
+            build(data, 2 * node, start, mid);
+            build(data, 2 * node + 1, mid + 1, end);
+            tree[node] = merge.apply(get(2 * node), get(2 * node + 1));
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private T get(int idx) {
+        return tree[idx] == null ? identity : (T) tree[idx];
+    }
+
+    // Range query in O(log n)
+    public T query(int l, int r) {
+        return queryHelper(1, 0, n - 1, l, r);
+    }
+
+    private T queryHelper(int node, int start, int end, int l, int r) {
+        if (r < start || end < l) return identity;
+        if (l <= start && end <= r) return get(node);
+        int mid = (start + end) / 2;
+        T left = queryHelper(2 * node, start, mid, l, r);
+        T right = queryHelper(2 * node + 1, mid + 1, end, l, r);
+        return merge.apply(left, right);
+    }
+
+    // Point update in O(log n)
+    public void update(int idx, T val) {
+        updateHelper(1, 0, n - 1, idx, val);
+    }
+
+    private void updateHelper(int node, int start, int end, int idx, T val) {
+        if (start == end) {
+            tree[node] = val;
+        } else {
+            int mid = (start + end) / 2;
+            if (idx <= mid)
+                updateHelper(2 * node, start, mid, idx, val);
+            else
+                updateHelper(2 * node + 1, mid + 1, end, idx, val);
+            tree[node] = merge.apply(get(2 * node), get(2 * node + 1));
+        }
+    }
+
+    // Usage Example
+    public static void main(String[] args) {
+        Integer[] data = {1, 3, 5, 7, 9, 11};
+        SegmentTree<Integer> st = new SegmentTree<>(
+            data, 
+            (a, b) -> a + b,  // Sum operation
+            0                  // Identity for sum
+        );
+        System.out.println(st.query(1, 3));  // Sum [1,3] = 15
+        st.update(1, 10);                     // Update index 1
+        System.out.println(st.query(1, 3));  // New sum = 22
+    }
+}`
+    }
+  };
+
   return (
     <section className="min-h-screen pt-24 pb-20 px-6 relative">
       {/* Background */}
@@ -827,31 +1123,31 @@ function DocumentationPage() {
           <p className="text-white/40 text-sm mt-4">* With lazy propagation</p>
         </div>
 
-        {/* Code Example */}
+        {/* Code Implementation - GfG Style */}
         <div className="glass rounded-2xl p-8 scroll-reveal">
-          <h2 className="text-2xl font-bold mb-4">Python Implementation</h2>
-          <div className="bg-spacex-dark rounded-xl p-6 font-mono text-sm overflow-x-auto">
-            <pre className="text-white/80">
-              {`class SegmentTree:
-    def __init__(self, data, merge_fn, identity):
-        self.n = len(data)
-        self.merge = merge_fn
-        self.identity = identity
-        self.tree = [identity] * (4 * self.n)
-        self._build(data, 1, 0, self.n - 1)
+          <h2 className="text-2xl font-bold mb-2">Implementation</h2>
+          <p className="text-white/60 mb-6">
+            Complete Segment Tree implementation with build, query, and update operations.
+            Click the tabs to switch between languages.
+          </p>
+          <CodeBlock codes={segmentTreeCodes} />
+        </div>
 
-    def query(self, l, r):
-        """Range query in O(log n)"""
-        return self._query(1, 0, self.n - 1, l, r)
-
-    def update(self, idx, val):
-        """Point update in O(log n)"""
-        self._update(1, 0, self.n - 1, idx, val)
-
-# Usage
-tree = SegmentTree(data, max, float('-inf'))
-max_in_range = tree.query(10, 50)  # O(log n)!`}
-            </pre>
+        {/* Key Concepts */}
+        <div className="glass rounded-2xl p-8 mt-8 scroll-reveal">
+          <h2 className="text-2xl font-bold mb-4">Key Concepts</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[
+              { title: 'Merge Function', desc: 'Combines two child nodes (sum, min, max, GCD, etc.)' },
+              { title: 'Identity Element', desc: 'Neutral value for the merge operation' },
+              { title: 'Tree Size', desc: '4n space covers all possible tree structures' },
+              { title: 'Node Indexing', desc: 'Left child = 2i, Right child = 2i + 1' }
+            ].map((item, i) => (
+              <div key={i} className="p-4 bg-white/5 rounded-lg">
+                <h3 className="font-semibold text-accent-cyan mb-1">{item.title}</h3>
+                <p className="text-white/60 text-sm">{item.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
