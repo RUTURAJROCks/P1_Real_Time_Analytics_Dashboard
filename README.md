@@ -1,18 +1,10 @@
-# 🌲 Real-Time Analytics Dashboard
+# Real-Time Analytics Dashboard
 
 A **Segment Tree-powered** analytics dashboard demonstrating O(log n) range queries for real-time server metrics monitoring. This project showcases how data structures from competitive programming can solve real-world problems in monitoring systems, similar to those used by Google Analytics, Cloudflare, and Bloomberg Terminal.
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-blue?style=for-the-badge)](https://p1-real-time-analytics-dashboard.vercel.app)
-[![Backend API](https://img.shields.io/badge/API-Render-green?style=for-the-badge)](https://p1-real-time-analytics-dashboard.onrender.com/api/health)
-
-## 🚀 Live Demo
-
-- **Frontend**: [p1-real-time-analytics-dashboard.vercel.app](https://p1-real-time-analytics-dashboard.vercel.app)
-- **Backend API**: [p1-real-time-analytics-dashboard.onrender.com](https://p1-real-time-analytics-dashboard.onrender.com/api/health)
-
 ---
 
-## ✨ Features
+## Features
 
 - **Real-time metrics** — CPU, Memory, Request tracking
 - **O(log n) queries** — Powered by Segment Trees
@@ -23,7 +15,7 @@ A **Segment Tree-powered** analytics dashboard demonstrating O(log n) range quer
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |-------|------------|
@@ -37,7 +29,7 @@ See [Techstack.md](./Techstack.md) for detailed explanations.
 
 ---
 
-## 📦 Local Development
+## Local Development
 
 ### Prerequisites
 - Node.js 18+
@@ -61,27 +53,9 @@ npm run dev
 
 ---
 
-## 🚀 Deployment
 
-### Backend (Render)
-1. Push to GitHub
-2. Go to [render.com](https://render.com)
-3. New → Web Service → Connect repo
-4. Root directory: `backend`
-5. Build command: `pip install -r requirements.txt`
-6. Start command: `uvicorn main:app --host 0.0.0.0 --port $PORT`
 
-### Frontend (Vercel)
-1. Go to [vercel.com](https://vercel.com)
-2. Import GitHub repo
-3. Root directory: `frontend`
-4. Add environment variable:
-   - `VITE_API_URL` = `https://your-api.onrender.com`
-5. Deploy
-
----
-
-## 📖 How It Works
+## How It Works
 
 ### Segment Tree Performance
 | Operation | Naive Array | Segment Tree |
@@ -96,7 +70,7 @@ For 3600 data points (1 hour):
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 P1TAD/
@@ -118,12 +92,12 @@ P1TAD/
 
 ---
 
-## 📄 License
+## License
 
 MIT License - feel free to use for learning!
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 Built as part of a deep-dive into Segment Trees for real-world applications.
